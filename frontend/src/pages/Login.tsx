@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useGoogleLogin } from '../utils/useGoogleLogin';
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,8 +10,6 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const { handleGoogleLogin, renderGoogleButton } = useGoogleLogin();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -27,26 +25,9 @@ const Login: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      renderGoogleButton('google-signin-button');
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [renderGoogleButton]);
-
-  const onGoogleSuccess = (token: string) => {
-    localStorage.setItem('token', token);
-    navigate('/dashboard');
-    window.location.reload();
-  };
-
-  const onGoogleError = (error: string) => {
-    setError(error);
-  };
-
   const handleGoogleSignIn = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/auth/google-auth', {
+      const response = await fetch('/api/auth/google-auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
