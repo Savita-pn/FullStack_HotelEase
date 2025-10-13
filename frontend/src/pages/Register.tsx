@@ -125,13 +125,13 @@ const Register: React.FC = () => {
             />
             <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-white">
               I agree to the{' '}
-              <a href="#" className="text-yellow-400 hover:text-yellow-300 underline">
+              <button type="button" className="text-yellow-400 hover:text-yellow-300 underline">
                 Terms and Conditions
-              </a>{' '}
+              </button>{' '}
               and{' '}
-              <a href="#" className="text-yellow-400 hover:text-yellow-300 underline">
+              <button type="button" className="text-yellow-400 hover:text-yellow-300 underline">
                 Privacy Policy
-              </a>
+              </button>
             </label>
           </div>
 
