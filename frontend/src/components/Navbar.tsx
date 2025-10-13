@@ -14,25 +14,15 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
+    <nav className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/logo.png.png" 
-                  alt="HotelEase Logo" 
-                  className="w-8 h-8 object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.nextElementSibling!.textContent = 'HE';
-                  }}
-                />
-                <span className="text-blue-600 font-bold text-sm hidden">HE</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">H</span>
               </div>
-              <span className="text-white text-xl font-bold">HotelEase</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-2xl font-bold">HotelEase</span>
             </Link>
           </div>
 
@@ -41,16 +31,16 @@ const Navbar: React.FC = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 text-white hover:text-gray-200 focus:outline-none"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
                 >
-                  <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-medium">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-medium text-white">
                       {user.name.charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <div className="hidden md:block">
                     <div>{user.name}</div>
-                    <div className="text-xs text-blue-200 capitalize">{user.role}</div>
+                    <div className="text-xs text-gray-500 capitalize">{user.role}</div>
                   </div>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -91,13 +81,13 @@ const Navbar: React.FC = () => {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/login"
-                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-white text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-medium transition duration-200"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-full text-sm font-medium transition duration-200 shadow-lg"
                 >
                   Register
                 </Link>
