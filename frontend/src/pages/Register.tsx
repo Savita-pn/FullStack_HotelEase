@@ -38,11 +38,11 @@ const Register: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="w-32 h-32 mx-auto mb-6">
+          <div className="w-40 h-40 bg-white rounded-full p-4 shadow-2xl mx-auto mb-6">
             <img 
               src="/logo.png" 
               alt="HotelEase Logo" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain rounded-full"
             />
           </div>
           <h2 className="text-3xl font-extrabold text-gray-900">

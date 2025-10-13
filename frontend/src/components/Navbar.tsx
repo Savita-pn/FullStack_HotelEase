@@ -19,11 +19,11 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-16 h-16">
+              <div className="w-20 h-20 bg-white rounded-full p-2 shadow-lg">
                 <img 
                   src="/logo.png" 
                   alt="HotelEase Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain rounded-full"
                 />
               </div>
               <span className="text-white text-xl font-bold">HotelEase</span>
