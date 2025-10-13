@@ -67,34 +67,34 @@ const Home: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">Experience the difference with our premium booking platform</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-stagger">
-            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3 animate-fade-in-up opacity-0" style={{animationDelay: '0.2s', animationFillMode: 'forwards'}}>
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Search</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition duration-300">Smart Search</h3>
               <p className="text-gray-600 text-lg leading-relaxed">AI-powered search finds your ideal hotel based on preferences, budget, and location with lightning speed.</p>
             </div>
 
-            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3 animate-fade-in-up opacity-0" style={{animationDelay: '0.4s', animationFillMode: 'forwards'}}>
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Bank-Level Security</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition duration-300">Bank-Level Security</h3>
               <p className="text-gray-600 text-lg leading-relaxed">Your data and payments are protected with enterprise-grade encryption and fraud detection.</p>
             </div>
 
-            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+            <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3 animate-fade-in-up opacity-0" style={{animationDelay: '0.6s', animationFillMode: 'forwards'}}>
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">VIP Support</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition duration-300">VIP Support</h3>
               <p className="text-gray-600 text-lg leading-relaxed">Dedicated concierge service available 24/7 to ensure your travel experience is flawless.</p>
             </div>
           </div>
@@ -104,21 +104,21 @@ const Home: React.FC = () => {
       {/* Stats Section */}
       <div className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-counter">
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">10M+</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="animate-fade-in-up opacity-0" style={{animationDelay: '0.1s', animationFillMode: 'forwards'}}>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 hover:scale-110 transition duration-300 cursor-default">10M+</div>
               <div className="text-blue-100 text-lg">Happy Travelers</div>
             </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">50K+</div>
+            <div className="animate-fade-in-up opacity-0" style={{animationDelay: '0.2s', animationFillMode: 'forwards'}}>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 hover:scale-110 transition duration-300 cursor-default">50K+</div>
               <div className="text-blue-100 text-lg">Premium Hotels</div>
             </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">200+</div>
+            <div className="animate-fade-in-up opacity-0" style={{animationDelay: '0.3s', animationFillMode: 'forwards'}}>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 hover:scale-110 transition duration-300 cursor-default">200+</div>
               <div className="text-blue-100 text-lg">Countries</div>
             </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">99.9%</div>
+            <div className="animate-fade-in-up opacity-0" style={{animationDelay: '0.4s', animationFillMode: 'forwards'}}>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 hover:scale-110 transition duration-300 cursor-default">99.9%</div>
               <div className="text-blue-100 text-lg">Uptime</div>
             </div>
           </div>

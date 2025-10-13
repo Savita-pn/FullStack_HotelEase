@@ -51,8 +51,15 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div className="text-center">
+          <div className="w-32 h-32 bg-white rounded-full p-4 shadow-2xl mx-auto mb-6 animate-bounce-slow">
+            <img 
+              src="/logo.png.png" 
+              alt="HotelEase Logo" 
+              className="w-full h-full object-contain rounded-full"
+            />
+          </div>
+          <h2 className="text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
         </div>
