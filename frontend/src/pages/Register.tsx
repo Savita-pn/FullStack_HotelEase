@@ -7,6 +7,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('customer');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -15,6 +16,12 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    if (!agreeToTerms) {
+      setError('Please agree to the terms and conditions');
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -105,6 +112,27 @@ const Register: React.FC = () => {
                 <option value="admin">Admin - Full access</option>
               </select>
             </div>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              id="agreeToTerms"
+              name="agreeToTerms"
+              type="checkbox"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+              className="h-4 w-4 text-yellow-400 focus:ring-yellow-400 border-white/20 rounded bg-white/10"
+            />
+            <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-white">
+              I agree to the{' '}
+              <a href="#" className="text-yellow-400 hover:text-yellow-300 underline">
+                Terms and Conditions
+              </a>{' '}
+              and{' '}
+              <a href="#" className="text-yellow-400 hover:text-yellow-300 underline">
+                Privacy Policy
+              </a>
+            </label>
           </div>
 
           <div>
