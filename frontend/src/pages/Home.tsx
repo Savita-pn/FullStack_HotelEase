@@ -14,19 +14,26 @@ const Home: React.FC = () => {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
           <div className="text-center">
-            <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            <div className="w-32 h-32 bg-white rounded-full p-4 shadow-2xl mx-auto mb-8 animate-bounce">
+              <img 
+                src="/logo.png.png" 
+                alt="HotelEase Logo" 
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
+            <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in">
               Welcome to{' '}
               <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                 HotelEase
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed animate-slide-up">
               Discover extraordinary stays around the world. From luxury resorts to cozy boutique hotels, 
               find your perfect escape with just a few clicks.
             </p>
             
             {!user ? (
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center animate-pulse">
                 <Link
                   to="/register"
                   className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-10 py-5 rounded-full text-xl font-bold hover:from-yellow-300 hover:to-orange-400 transform hover:scale-105 transition duration-300 shadow-2xl"
@@ -60,7 +67,7 @@ const Home: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">Experience the difference with our premium booking platform</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-stagger">
             <div className="group bg-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-3">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +104,7 @@ const Home: React.FC = () => {
       {/* Stats Section */}
       <div className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-counter">
             <div>
               <div className="text-4xl md:text-5xl font-bold text-white mb-2">10M+</div>
               <div className="text-blue-100 text-lg">Happy Travelers</div>
