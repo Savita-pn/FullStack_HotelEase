@@ -19,18 +19,12 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+              <div className="w-16 h-16">
                 <img 
-                  src="/logo.png.png" 
+                  src="/logo.png" 
                   alt="HotelEase Logo" 
-                  className="w-8 h-8 object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.nextElementSibling!.textContent = 'HE';
-                  }}
+                  className="w-full h-full object-contain"
                 />
-                <span className="text-blue-600 font-bold text-sm hidden">HE</span>
               </div>
               <span className="text-white text-xl font-bold">HotelEase</span>
             </Link>
