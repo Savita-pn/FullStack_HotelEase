@@ -37,11 +37,13 @@ const Register: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div className="text-center">
+          <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <span className="text-4xl font-bold text-white">H</span>
+          </div>
+          <h2 className="text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>
-
         </div>
         <form className="mt-8 space-y-6 bg-white p-8 rounded-xl shadow-lg" onSubmit={handleSubmit}>
           {error && (
@@ -123,7 +125,7 @@ const Register: React.FC = () => {
               onChange={(e) => setAgreeToTerms(e.target.checked)}
               className="h-4 w-4 text-yellow-400 focus:ring-yellow-400 border-white/20 rounded bg-white/10"
             />
-            <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-white">
+            <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-black">
               I agree to the{' '}
               <button type="button" className="text-yellow-400 hover:text-yellow-300 underline">
                 Terms and Conditions
