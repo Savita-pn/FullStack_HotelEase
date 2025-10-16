@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchStats();
-  }, []);
+  }, [user]);
 
   const fetchStats = async () => {
     try {

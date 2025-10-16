@@ -22,7 +22,7 @@ interface Hotel {
 }
 
 const Rooms: React.FC = () => {
-  const { user } = useAuth();
+  const {} = useAuth();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
