@@ -13,9 +13,9 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchStats();
-  }, [user]);
+  }, [fetchStats]);
 
-  const fetchStats = async () => {
+  const fetchStats = React.useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (user?.role === 'manager') {
@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
-  };
+  }, [user]);
 
   const renderDashboardContent = () => {
     switch (user?.role) {
