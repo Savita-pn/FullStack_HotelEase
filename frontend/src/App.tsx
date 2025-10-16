@@ -13,6 +13,9 @@ import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import Hotels from './pages/Hotels';
 import Rooms from './pages/Rooms';
+import Bookings from './pages/Bookings';
+import Favorites from './pages/Favorites';
+import ManagerBookings from './pages/ManagerBookings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -65,6 +68,36 @@ function App() {
                   <ProtectedRoute>
                     <div className="pt-16">
                       <Rooms />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/bookings" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Bookings />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/favorites" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Favorites />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/manager-bookings" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <ManagerBookings />
                     </div>
                   </ProtectedRoute>
                 } 

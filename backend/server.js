@@ -6,6 +6,8 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const hotelRoutes = require('./routes/hotels');
 const roomRoutes = require('./routes/rooms');
+const bookingRoutes = require('./routes/bookings');
+const favoriteRoutes = require('./routes/favorites');
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.get('/api/test', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/hotels', hotelRoutes);
 app.use('/api/rooms', roomRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/favorites', favoriteRoutes);
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)

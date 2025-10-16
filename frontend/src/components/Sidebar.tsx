@@ -21,10 +21,11 @@ const Sidebar: React.FC = () => {
     ] : []),
     ...(user.role === 'manager' ? [
       { name: 'My Hotels', path: '/hotels', icon: '🏨' },
-      { name: 'My Rooms', path: '/rooms', icon: '🛏️' }
+      { name: 'My Rooms', path: '/rooms', icon: '🛏️' },
+      { name: 'Booking Requests', path: '/manager-bookings', icon: '📋' }
     ] : []),
     ...(user.role === 'customer' ? [
-      { name: 'Bookings', path: '/bookings', icon: '📅' },
+      { name: 'My Bookings', path: '/bookings', icon: '📅' },
       { name: 'Favorites', path: '/favorites', icon: '❤️' }
     ] : [])
   ];

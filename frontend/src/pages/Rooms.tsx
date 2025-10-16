@@ -9,6 +9,7 @@ interface Room {
   capacity: number;
   amenities: string[];
   description: string;
+  images: string[];
   hotelId: {
     _id: string;
     name: string;
@@ -33,7 +34,8 @@ const Rooms: React.FC = () => {
     capacity: '',
     hotelId: '',
     amenities: '',
-    description: ''
+    description: '',
+    images: ''
   });
 
   useEffect(() => {
@@ -92,7 +94,8 @@ const Rooms: React.FC = () => {
           ...formData,
           price: Number(formData.price),
           capacity: Number(formData.capacity),
-          amenities: amenitiesArray
+          amenities: amenitiesArray,
+          images: formData.images.split(',').map(img => img.trim()).filter(img => img)
         })
       });
 
@@ -107,7 +110,8 @@ const Rooms: React.FC = () => {
           capacity: '',
           hotelId: '',
           amenities: '',
-          description: ''
+          description: '',
+          images: ''
         });
       }
     } catch (error) {
@@ -124,7 +128,8 @@ const Rooms: React.FC = () => {
       capacity: room.capacity.toString(),
       hotelId: room.hotelId._id,
       amenities: room.amenities.join(', '),
-      description: room.description || ''
+      description: room.description || '',
+      images: room.images?.join(', ') || ''
     });
     setShowForm(true);
   };
@@ -243,6 +248,14 @@ const Rooms: React.FC = () => {
                 className="w-full p-3 border rounded-lg h-20"
               />
 
+              <input
+                type="text"
+                placeholder="Image URLs (comma separated)"
+                value={formData.images}
+                onChange={(e) => setFormData({...formData, images: e.target.value})}
+                className="w-full p-3 border rounded-lg"
+              />
+
               <div className="flex gap-4">
                 <button
                   type="submit"
@@ -262,7 +275,8 @@ const Rooms: React.FC = () => {
                       capacity: '',
                       hotelId: '',
                       amenities: '',
-                      description: ''
+                      description: '',
+                      images: ''
                     });
                   }}
                   className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
@@ -277,8 +291,18 @@ const Rooms: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {rooms.map((room) => (
-          <div key={room._id} className="bg-white p-6 rounded-lg shadow-lg">
-            <div className="flex justify-between items-start mb-2">
+          <div key={room._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="h-48 bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
+              {room.images && room.images.length > 0 ? (
+                <img src={room.images[0]} alt={`${room.type} room`} className="w-full h-full object-cover" />
+              ) : (
+                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                </svg>
+              )}
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-2">
               <h3 className="text-xl font-bold">{room.type} - {room.roomNumber}</h3>
               <span className={`px-2 py-1 rounded text-xs ${
                 room.availability ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -307,19 +331,20 @@ const Rooms: React.FC = () => {
               </div>
             )}
             
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(room)}
-                className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(room._id)}
-                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-              >
-                Delete
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEdit(room)}
+                  className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(room._id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}

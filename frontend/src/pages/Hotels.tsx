@@ -19,7 +19,8 @@ const Hotels: React.FC = () => {
     name: '',
     location: '',
     description: '',
-    amenities: ''
+    amenities: '',
+    images: ''
   });
 
   useEffect(() => {
@@ -60,7 +61,8 @@ const Hotels: React.FC = () => {
         },
         body: JSON.stringify({
           ...formData,
-          amenities: amenitiesArray
+          amenities: amenitiesArray,
+          images: formData.images.split(',').map(img => img.trim()).filter(img => img)
         })
       });
 
@@ -68,7 +70,7 @@ const Hotels: React.FC = () => {
         fetchHotels();
         setShowForm(false);
         setEditingHotel(null);
-        setFormData({ name: '', location: '', description: '', amenities: '' });
+        setFormData({ name: '', location: '', description: '', amenities: '', images: '' });
       }
     } catch (error) {
       console.error('Error saving hotel:', error);
@@ -81,7 +83,8 @@ const Hotels: React.FC = () => {
       name: hotel.name,
       location: hotel.location,
       description: hotel.description,
-      amenities: hotel.amenities.join(', ')
+      amenities: hotel.amenities.join(', '),
+      images: hotel.images?.join(', ') || ''
     });
     setShowForm(true);
   };
@@ -154,6 +157,13 @@ const Hotels: React.FC = () => {
                 onChange={(e) => setFormData({...formData, amenities: e.target.value})}
                 className="w-full p-3 border rounded-lg"
               />
+              <input
+                type="text"
+                placeholder="Image URLs (comma separated)"
+                value={formData.images}
+                onChange={(e) => setFormData({...formData, images: e.target.value})}
+                className="w-full p-3 border rounded-lg"
+              />
               <div className="flex gap-4">
                 <button
                   type="submit"
@@ -166,7 +176,7 @@ const Hotels: React.FC = () => {
                   onClick={() => {
                     setShowForm(false);
                     setEditingHotel(null);
-                    setFormData({ name: '', location: '', description: '', amenities: '' });
+                    setFormData({ name: '', location: '', description: '', amenities: '', images: '' });
                   }}
                   className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
                 >
@@ -180,8 +190,18 @@ const Hotels: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {hotels.map((hotel) => (
-          <div key={hotel._id} className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-bold mb-2">{hotel.name}</h3>
+          <div key={hotel._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+              {hotel.images && hotel.images.length > 0 ? (
+                <img src={hotel.images[0]} alt={hotel.name} className="w-full h-full object-cover" />
+              ) : (
+                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              )}
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-2">{hotel.name}</h3>
             <p className="text-gray-600 mb-2">📍 {hotel.location}</p>
             <p className="text-gray-700 mb-4">{hotel.description}</p>
             <div className="mb-4">

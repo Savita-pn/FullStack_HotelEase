@@ -36,6 +36,14 @@ const Dashboard: React.FC = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedHotel, setSelectedHotel] = useState<string>('');
+  const [selectedRoom, setSelectedRoom] = useState<string>('');
+  const [bookingData, setBookingData] = useState({
+    checkIn: '',
+    checkOut: '',
+    guests: 1
+  });
 
   const fetchStats = React.useCallback(async () => {
     try {
@@ -105,6 +113,59 @@ const Dashboard: React.FC = () => {
     fetchStats();
     fetchHotelsAndRooms();
   }, [fetchStats, fetchHotelsAndRooms]);
+
+  const bookRoom = (hotelId: string, roomId: string) => {
+    setSelectedHotel(hotelId);
+    setSelectedRoom(roomId);
+    setShowBookingModal(true);
+  };
+
+  const handleBooking = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          hotelId: selectedHotel,
+          roomId: selectedRoom,
+          ...bookingData
+        })
+      });
+      
+      if (response.ok) {
+        setShowBookingModal(false);
+        setBookingData({ checkIn: '', checkOut: '', guests: 1 });
+        alert('Booking request submitted! Waiting for manager approval.');
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+    }
+  };
+
+  const toggleFavorite = async (hotelId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ hotelId })
+      });
+      
+      if (response.ok) {
+        alert('Added to favorites!');
+      }
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
+    }
+  };
 
   const renderDashboardContent = () => {
     switch (user?.role) {
@@ -419,9 +480,21 @@ const Dashboard: React.FC = () => {
                             </div>
                           )}
                           
-                          <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
-                            View Details
-                          </button>
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => bookRoom(hotel._id, hotelRooms[0]?._id)}
+                              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+                              disabled={availableRooms.length === 0}
+                            >
+                              {availableRooms.length > 0 ? 'Book Now' : 'No Rooms'}
+                            </button>
+                            <button 
+                              onClick={() => toggleFavorite(hotel._id)}
+                              className="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-2 rounded-lg transition duration-200"
+                            >
+                              ❤️
+                            </button>
+                          </div>
                         </div>
                       </div>
                     );
@@ -429,6 +502,57 @@ const Dashboard: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {/* Booking Modal */}
+            {showBookingModal && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-8 rounded-lg max-w-md w-full">
+                  <h2 className="text-xl font-bold mb-4">Book Room</h2>
+                  <form onSubmit={handleBooking} className="space-y-4">
+                    <input
+                      type="date"
+                      placeholder="Check-in Date"
+                      value={bookingData.checkIn}
+                      onChange={(e) => setBookingData({...bookingData, checkIn: e.target.value})}
+                      className="w-full p-3 border rounded-lg"
+                      required
+                    />
+                    <input
+                      type="date"
+                      placeholder="Check-out Date"
+                      value={bookingData.checkOut}
+                      onChange={(e) => setBookingData({...bookingData, checkOut: e.target.value})}
+                      className="w-full p-3 border rounded-lg"
+                      required
+                    />
+                    <input
+                      type="number"
+                      placeholder="Number of Guests"
+                      value={bookingData.guests}
+                      onChange={(e) => setBookingData({...bookingData, guests: Number(e.target.value)})}
+                      className="w-full p-3 border rounded-lg"
+                      min="1"
+                      required
+                    />
+                    <div className="flex gap-4">
+                      <button
+                        type="submit"
+                        className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                      >
+                        Book Now
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowBookingModal(false)}
+                        className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         );
     }
