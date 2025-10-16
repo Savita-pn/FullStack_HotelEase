@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import TermsModal from '../components/TermsModal';
 
 const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState('');
   const [role, setRole] = useState('customer');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const checkPasswordStrength = (pwd: string) => {
+    if (pwd.length < 8) return 'Too short';
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(pwd)) return 'Weak';
+    return 'Strong';
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +30,11 @@ const Register: React.FC = () => {
     
     if (!agreeToTerms) {
       setError('Please agree to the terms and conditions');
+      return;
+    }
+    
+    if (checkPasswordStrength(password) !== 'Strong') {
+      setError('Password must be at least 8 characters with uppercase, lowercase, number and special character');
       return;
     }
     
@@ -101,7 +116,10 @@ const Register: React.FC = () => {
                   className="mt-1 appearance-none relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Enter your password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordStrength(checkPasswordStrength(e.target.value));
+                  }}
                 />
                 <button
                   type="button"
@@ -120,7 +138,17 @@ const Register: React.FC = () => {
                   )}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-gray-500">Use 8+ characters with letters, numbers & special symbols</p>
+              <div className="mt-1 flex items-center justify-between">
+                <p className="text-xs text-gray-500">Use 8+ characters with letters, numbers & special symbols</p>
+                {password && (
+                  <span className={`text-xs font-medium ${
+                    passwordStrength === 'Strong' ? 'text-green-600' : 
+                    passwordStrength === 'Weak' ? 'text-yellow-600' : 'text-red-600'
+                  }`}>
+                    {passwordStrength}
+                  </span>
+                )}
+              </div>
             </div>
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700">
@@ -135,7 +163,6 @@ const Register: React.FC = () => {
               >
                 <option value="customer">Customer - Book hotels</option>
                 <option value="manager">Manager - Manage hotels</option>
-                <option value="admin">Admin - Full access</option>
               </select>
             </div>
           </div>
@@ -151,11 +178,19 @@ const Register: React.FC = () => {
             />
             <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-black">
               I agree to the{' '}
-              <button type="button" className="text-yellow-400 hover:text-yellow-300 underline">
+              <button 
+                type="button" 
+                onClick={() => setShowTermsModal(true)}
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
                 Terms and Conditions
               </button>{' '}
               and{' '}
-              <button type="button" className="text-yellow-400 hover:text-yellow-300 underline">
+              <button 
+                type="button" 
+                onClick={() => setShowPrivacyModal(true)}
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
                 Privacy Policy
               </button>
             </label>
@@ -180,6 +215,17 @@ const Register: React.FC = () => {
             </span>
           </div>
         </form>
+        
+        <TermsModal 
+          isOpen={showTermsModal} 
+          onClose={() => setShowTermsModal(false)} 
+          type="terms" 
+        />
+        <TermsModal 
+          isOpen={showPrivacyModal} 
+          onClose={() => setShowPrivacyModal(false)} 
+          type="privacy" 
+        />
       </div>
     </div>
   );

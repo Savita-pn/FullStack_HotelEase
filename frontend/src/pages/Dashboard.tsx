@@ -29,10 +29,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-2">1,234</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-2">0</p>
                 <div className="flex items-center">
-                  <span className="text-green-500 text-sm font-semibold">↗ +12%</span>
-                  <span className="text-gray-500 text-sm ml-2">from last month</span>
+                  <span className="text-gray-500 text-sm">No data available</span>
                 </div>
               </div>
 
@@ -45,10 +44,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">456</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">0</p>
                 <div className="flex items-center">
-                  <span className="text-green-500 text-sm font-semibold">↗ +8%</span>
-                  <span className="text-gray-500 text-sm ml-2">from last month</span>
+                  <span className="text-gray-500 text-sm">No data available</span>
                 </div>
               </div>
 
@@ -61,10 +59,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-2">2,890</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-2">0</p>
                 <div className="flex items-center">
-                  <span className="text-green-500 text-sm font-semibold">↗ +15%</span>
-                  <span className="text-gray-500 text-sm ml-2">from last month</span>
+                  <span className="text-gray-500 text-sm">No data available</span>
                 </div>
               </div>
             </div>
@@ -106,7 +103,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">12</p>
+                <p className="text-3xl font-bold text-gray-900">0</p>
                 <p className="text-sm text-gray-500 mt-2">Active properties</p>
               </div>
 
@@ -119,7 +116,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">248</p>
+                <p className="text-3xl font-bold text-gray-900">0</p>
                 <p className="text-sm text-gray-500 mt-2">Across all properties</p>
               </div>
             </div>
@@ -166,7 +163,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">3</p>
+                <p className="text-3xl font-bold text-gray-900">0</p>
                 <p className="text-sm text-gray-500 mt-2">Active reservations</p>
               </div>
 
@@ -179,7 +176,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">7</p>
+                <p className="text-3xl font-bold text-gray-900">0</p>
                 <p className="text-sm text-gray-500 mt-2">Saved properties</p>
               </div>
             </div>
