@@ -11,10 +11,6 @@ const Dashboard: React.FC = () => {
     bookings: 0
   });
 
-  useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
-
   const fetchStats = React.useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
@@ -40,6 +36,10 @@ const Dashboard: React.FC = () => {
       console.error('Error fetching stats:', error);
     }
   }, [user]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   const renderDashboardContent = () => {
     switch (user?.role) {
