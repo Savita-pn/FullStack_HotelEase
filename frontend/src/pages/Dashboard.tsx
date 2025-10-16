@@ -2,6 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+interface Hotel {
+  _id: string;
+  name: string;
+  location: string;
+  description: string;
+  amenities: string[];
+  images: string[];
+  rating: number;
+  totalRooms: number;
+}
+
+interface Room {
+  _id: string;
+  type: string;
+  price: number;
+  availability: boolean;
+  hotelId: string;
+  roomNumber: string;
+  capacity: number;
+  amenities: string[];
+  images: string[];
+  description: string;
+}
+
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [stats, setStats] = useState({
@@ -10,6 +34,9 @@ const Dashboard: React.FC = () => {
     users: 0,
     bookings: 0
   });
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchStats = React.useCallback(async () => {
     try {
@@ -37,9 +64,34 @@ const Dashboard: React.FC = () => {
     }
   }, [user]);
 
+  const fetchHotelsAndRooms = React.useCallback(async () => {
+    if (user?.role !== 'customer') return;
+    
+    setLoading(true);
+    try {
+      const hotelsRes = await fetch('/api/hotels');
+      const hotelsData = await hotelsRes.json();
+      
+      const roomsRes = await fetch('/api/rooms');
+      const roomsData = await roomsRes.json();
+      
+      if (hotelsData.success) {
+        setHotels(hotelsData.hotels);
+      }
+      if (roomsData.success) {
+        setRooms(roomsData.rooms);
+      }
+    } catch (error) {
+      console.error('Error fetching hotels and rooms:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     fetchStats();
-  }, [fetchStats]);
+    fetchHotelsAndRooms();
+  }, [fetchStats, fetchHotelsAndRooms]);
 
   const renderDashboardContent = () => {
     switch (user?.role) {
@@ -189,12 +241,38 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Available Hotels</h3>
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-3xl font-bold text-gray-900">{hotels.length}</p>
+                <p className="text-sm text-gray-500 mt-2">Properties to explore</p>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Available Rooms</h3>
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-3xl font-bold text-gray-900">{rooms.filter(room => room.availability).length}</p>
+                <p className="text-sm text-gray-500 mt-2">Ready for booking</p>
+              </div>
+
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900">My Bookings</h3>
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
                   </div>
@@ -202,37 +280,90 @@ const Dashboard: React.FC = () => {
                 <p className="text-3xl font-bold text-gray-900">0</p>
                 <p className="text-sm text-gray-500 mt-2">Active reservations</p>
               </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Favorite Hotels</h3>
-                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </div>
-                </div>
-                <p className="text-3xl font-bold text-gray-900">0</p>
-                <p className="text-sm text-gray-500 mt-2">Saved properties</p>
-              </div>
             </div>
 
+            {/* Hotels Section */}
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button className="p-4 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
-                  <h4 className="font-medium text-gray-900">Search Hotels</h4>
-                  <p className="text-sm text-gray-500 mt-1">Find your next destination</p>
-                </button>
-                <button className="p-4 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
-                  <h4 className="font-medium text-gray-900">My Bookings</h4>
-                  <p className="text-sm text-gray-500 mt-1">View reservation details</p>
-                </button>
-                <Link to="/profile" className="p-4 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200 block">
-                  <h4 className="font-medium text-gray-900">Profile Settings</h4>
-                  <p className="text-sm text-gray-500 mt-1">Update your information</p>
-                </Link>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-gray-900">Available Hotels</h3>
+                {loading && <div className="text-sm text-gray-500">Loading...</div>}
               </div>
+              
+              {hotels.length === 0 && !loading ? (
+                <div className="text-center py-8">
+                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <p className="text-gray-500">No hotels available yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {hotels.map((hotel) => {
+                    const hotelRooms = rooms.filter(room => room.hotelId === hotel._id);
+                    const availableRooms = hotelRooms.filter(room => room.availability);
+                    const minPrice = hotelRooms.length > 0 ? Math.min(...hotelRooms.map(room => room.price)) : 0;
+                    
+                    return (
+                      <div key={hotel._id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                        <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                          {hotel.images && hotel.images.length > 0 ? (
+                            <img src={hotel.images[0]} alt={hotel.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-lg font-semibold text-gray-900">{hotel.name}</h4>
+                            <div className="flex items-center">
+                              <svg className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                              <span className="text-sm text-gray-600">{hotel.rating}</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-2">{hotel.location}</p>
+                          <p className="text-sm text-gray-500 mb-3 line-clamp-2">{hotel.description}</p>
+                          
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-sm text-gray-600">
+                              <span className="font-medium">{availableRooms.length}</span> rooms available
+                            </div>
+                            {minPrice > 0 && (
+                              <div className="text-lg font-bold text-green-600">
+                                ${minPrice}/night
+                              </div>
+                            )}
+                          </div>
+                          
+                          {hotel.amenities && hotel.amenities.length > 0 && (
+                            <div className="mb-3">
+                              <div className="flex flex-wrap gap-1">
+                                {hotel.amenities.slice(0, 3).map((amenity, index) => (
+                                  <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                                    {amenity}
+                                  </span>
+                                ))}
+                                {hotel.amenities.length > 3 && (
+                                  <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                    +{hotel.amenities.length - 3} more
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                            View Details
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         );
