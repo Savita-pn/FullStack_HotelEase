@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
+import Hotels from './pages/Hotels';
+import Rooms from './pages/Rooms';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -36,6 +38,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/hotels" 
+              element={
+                <ProtectedRoute>
+                  <Hotels />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/rooms" 
+              element={
+                <ProtectedRoute>
+                  <Rooms />
                 </ProtectedRoute>
               } 
             />

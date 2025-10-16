@@ -1,9 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const [stats, setStats] = useState({
+    hotels: 0,
+    rooms: 0,
+    users: 0,
+    bookings: 0
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (user?.role === 'manager') {
+        const hotelsRes = await fetch('/api/hotels/manager/my-hotels', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const hotelsData = await hotelsRes.json();
+        
+        const roomsRes = await fetch('/api/rooms', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const roomsData = await roomsRes.json();
+        
+        setStats({
+          hotels: hotelsData.success ? hotelsData.hotels.length : 0,
+          rooms: roomsData.success ? roomsData.rooms.length : 0,
+          users: 0,
+          bookings: 0
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
 
   const renderDashboardContent = () => {
     switch (user?.role) {
@@ -103,7 +139,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">0</p>
+                <p className="text-3xl font-bold text-gray-900">{stats.hotels}</p>
                 <p className="text-sm text-gray-500 mt-2">Active properties</p>
               </div>
 
@@ -116,7 +152,7 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">0</p>
+                <p className="text-3xl font-bold text-gray-900">{stats.rooms}</p>
                 <p className="text-sm text-gray-500 mt-2">Across all properties</p>
               </div>
             </div>

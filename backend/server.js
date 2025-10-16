@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const hotelRoutes = require('./routes/hotels');
+const roomRoutes = require('./routes/rooms');
 
 const app = express();
 
@@ -18,6 +20,8 @@ app.get('/api/test', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/hotels', hotelRoutes);
+app.use('/api/rooms', roomRoutes);
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)
