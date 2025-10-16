@@ -40,6 +40,7 @@ const Dashboard: React.FC = () => {
   const fetchStats = React.useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
+      
       if (user?.role === 'manager') {
         const hotelsRes = await fetch('/api/hotels/manager/my-hotels', {
           headers: { 'Authorization': `Bearer ${token}` }
@@ -57,6 +58,19 @@ const Dashboard: React.FC = () => {
           users: 0,
           bookings: 0
         });
+      } else if (user?.role === 'admin') {
+        const hotelsRes = await fetch('/api/hotels');
+        const hotelsData = await hotelsRes.json();
+        
+        const roomsRes = await fetch('/api/rooms');
+        const roomsData = await roomsRes.json();
+        
+        setStats({
+          hotels: hotelsData.success ? hotelsData.hotels.length : 0,
+          rooms: roomsData.success ? roomsData.rooms.length : 0,
+          users: 0,
+          bookings: 0
+        });
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -64,7 +78,7 @@ const Dashboard: React.FC = () => {
   }, [user]);
 
   const fetchHotelsAndRooms = React.useCallback(async () => {
-    if (user?.role !== 'customer') return;
+    if (user?.role !== 'customer' && user?.role !== 'admin') return;
     
     setLoading(true);
     try {
@@ -116,9 +130,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-2">0</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-2">{stats.users}</p>
                 <div className="flex items-center">
-                  <span className="text-gray-500 text-sm">No data available</span>
+                  <span className="text-gray-500 text-sm">Registered users</span>
                 </div>
               </div>
 
@@ -131,9 +145,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">0</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">{stats.hotels}</p>
                 <div className="flex items-center">
-                  <span className="text-gray-500 text-sm">No data available</span>
+                  <span className="text-gray-500 text-sm">Active properties</span>
                 </div>
               </div>
 
@@ -146,9 +160,9 @@ const Dashboard: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-2">0</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-2">{stats.bookings}</p>
                 <div className="flex items-center">
-                  <span className="text-gray-500 text-sm">No data available</span>
+                  <span className="text-gray-500 text-sm">Total reservations</span>
                 </div>
               </div>
             </div>
@@ -165,6 +179,57 @@ const Dashboard: React.FC = () => {
                   <p className="text-sm text-gray-500 mt-1">Configure system-wide settings</p>
                 </button>
               </div>
+            </div>
+
+            {/* Hotels Overview */}
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-gray-900">All Hotels Overview</h3>
+                <div className="text-sm text-gray-500">{hotels.length} total hotels</div>
+              </div>
+              
+              {hotels.length === 0 ? (
+                <div className="text-center py-8">
+                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <p className="text-gray-500">No hotels registered yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {hotels.slice(0, 6).map((hotel) => {
+                    const hotelRooms = rooms.filter(room => room.hotelId === hotel._id);
+                    const availableRooms = hotelRooms.filter(room => room.availability);
+                    
+                    return (
+                      <div key={hotel._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition duration-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-semibold text-gray-900 truncate">{hotel.name}</h4>
+                          <div className="flex items-center">
+                            <svg className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span className="text-sm text-gray-600">{hotel.rating}</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">{hotel.location}</p>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-500">{availableRooms.length} rooms available</span>
+                          <span className="text-green-600 font-medium">{hotelRooms.length} total rooms</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              
+              {hotels.length > 6 && (
+                <div className="text-center mt-4">
+                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    View all {hotels.length} hotels →
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         );

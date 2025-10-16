@@ -17,59 +17,61 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-gray-50">
-          <Navbar />
-          <Sidebar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <div className="ml-64 pt-16">
-                    <Dashboard />
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <div className="ml-64 pt-16">
-                    <Profile />
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/hotels" 
-              element={
-                <ProtectedRoute>
-                  <div className="ml-64 pt-16">
-                    <Hotels />
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/rooms" 
-              element={
-                <ProtectedRoute>
-                  <div className="ml-64 pt-16">
-                    <Rooms />
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </div>
-      </Router>
+      <SidebarProvider>
+        <Router>
+          <div className="min-h-screen bg-gray-50">
+            <Navbar />
+            <Sidebar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Dashboard />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/profile" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Profile />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/hotels" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Hotels />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/rooms" 
+                element={
+                  <ProtectedRoute>
+                    <div className="pt-16">
+                      <Rooms />
+                    </div>
+                  </ProtectedRoute>
+                } 
+              />
+            </Routes>
+          </div>
+        </Router>
+      </SidebarProvider>
     </AuthProvider>
   );
 }
