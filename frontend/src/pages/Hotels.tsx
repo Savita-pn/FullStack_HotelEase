@@ -6,6 +6,7 @@ interface Hotel {
   location: string;
   description: string;
   amenities: string[];
+  images: string[];
   totalRooms: number;
   rating: number;
 }
@@ -202,33 +203,34 @@ const Hotels: React.FC = () => {
             </div>
             <div className="p-6">
               <h3 className="text-xl font-bold mb-2">{hotel.name}</h3>
-            <p className="text-gray-600 mb-2">📍 {hotel.location}</p>
-            <p className="text-gray-700 mb-4">{hotel.description}</p>
-            <div className="mb-4">
-              <p className="text-sm text-gray-600">Amenities:</p>
-              <div className="flex flex-wrap gap-1">
-                {hotel.amenities.map((amenity, index) => (
-                  <span key={index} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
-                    {amenity}
-                  </span>
-                ))}
+              <p className="text-gray-600 mb-2">📍 {hotel.location}</p>
+              <p className="text-gray-700 mb-4">{hotel.description}</p>
+              <div className="mb-4">
+                <p className="text-sm text-gray-600">Amenities:</p>
+                <div className="flex flex-wrap gap-1">
+                  {hotel.amenities.map((amenity, index) => (
+                    <span key={index} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                      {amenity}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Rooms: {hotel.totalRooms}</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(hotel)}
-                  className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(hotel._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-                >
-                  Delete
-                </button>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Rooms: {hotel.totalRooms}</span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(hotel)}
+                    className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(hotel._id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           </div>
