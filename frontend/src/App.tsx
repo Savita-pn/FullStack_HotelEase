@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -19,6 +20,7 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gray-50">
           <Navbar />
+          <Sidebar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -29,7 +31,9 @@ function App() {
               path="/dashboard" 
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <div className="ml-64 pt-16">
+                    <Dashboard />
+                  </div>
                 </ProtectedRoute>
               } 
             />
@@ -37,7 +41,9 @@ function App() {
               path="/profile" 
               element={
                 <ProtectedRoute>
-                  <Profile />
+                  <div className="ml-64 pt-16">
+                    <Profile />
+                  </div>
                 </ProtectedRoute>
               } 
             />
@@ -45,7 +51,9 @@ function App() {
               path="/hotels" 
               element={
                 <ProtectedRoute>
-                  <Hotels />
+                  <div className="ml-64 pt-16">
+                    <Hotels />
+                  </div>
                 </ProtectedRoute>
               } 
             />
@@ -53,11 +61,14 @@ function App() {
               path="/rooms" 
               element={
                 <ProtectedRoute>
-                  <Rooms />
+                  <div className="ml-64 pt-16">
+                    <Rooms />
+                  </div>
                 </ProtectedRoute>
               } 
             />
-          </Routes>
+            </Routes>
+          </div>
         </div>
       </Router>
     </AuthProvider>
