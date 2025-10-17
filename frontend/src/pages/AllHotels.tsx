@@ -116,43 +116,58 @@ const AllHotels: React.FC = () => {
           <div className="bg-white p-8 rounded-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4">Edit Hotel</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Hotel Name"
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Location"
-                value={formData.location}
-                onChange={(e) => setFormData({...formData, location: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-              />
-              <textarea
-                placeholder="Description"
-                value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                className="w-full p-3 border rounded-lg h-24"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Amenities (comma separated)"
-                value={formData.amenities}
-                onChange={(e) => setFormData({...formData, amenities: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-              />
-              <input
-                type="text"
-                placeholder="Image URLs (comma separated)"
-                value={formData.images}
-                onChange={(e) => setFormData({...formData, images: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Hotel Name *</label>
+                <input
+                  type="text"
+                  placeholder="Enter hotel name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Location *</label>
+                <input
+                  type="text"
+                  placeholder="Enter hotel location"
+                  value={formData.location}
+                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                <textarea
+                  placeholder="Enter hotel description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  className="w-full p-3 border rounded-lg h-24"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Amenities</label>
+                <input
+                  type="text"
+                  placeholder="WiFi, Pool, Gym, Spa (comma separated)"
+                  value={formData.amenities}
+                  onChange={(e) => setFormData({...formData, amenities: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Hotel Images</label>
+                <input
+                  type="text"
+                  placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                  value={formData.images}
+                  onChange={(e) => setFormData({...formData, images: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
               <div className="flex gap-4">
                 <button
                   type="submit"

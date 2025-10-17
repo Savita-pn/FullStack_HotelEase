@@ -134,70 +134,91 @@ const AllRooms: React.FC = () => {
           <div className="bg-white p-8 rounded-lg max-w-md w-full max-h-96 overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">Edit Room</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <select
-                value={formData.type}
-                onChange={(e) => setFormData({...formData, type: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-              >
-                <option value="Single">Single</option>
-                <option value="Double">Double</option>
-                <option value="Suite">Suite</option>
-                <option value="Deluxe">Deluxe</option>
-                <option value="Family">Family</option>
-              </select>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Room Type *</label>
+                <select
+                  value={formData.type}
+                  onChange={(e) => setFormData({...formData, type: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                >
+                  <option value="Single">Single</option>
+                  <option value="Double">Double</option>
+                  <option value="Suite">Suite</option>
+                  <option value="Deluxe">Deluxe</option>
+                  <option value="Family">Family</option>
+                </select>
+              </div>
 
-              <input
-                type="text"
-                placeholder="Room Number"
-                value={formData.roomNumber}
-                onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Room Number *</label>
+                <input
+                  type="text"
+                  placeholder="e.g., 101, A-205"
+                  value={formData.roomNumber}
+                  onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                />
+              </div>
 
-              <input
-                type="number"
-                placeholder="Price per night"
-                value={formData.price}
-                onChange={(e) => setFormData({...formData, price: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-                min="0"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Price per Night ($) *</label>
+                <input
+                  type="number"
+                  placeholder="Enter price in dollars"
+                  value={formData.price}
+                  onChange={(e) => setFormData({...formData, price: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                  min="0"
+                />
+              </div>
 
-              <input
-                type="number"
-                placeholder="Capacity"
-                value={formData.capacity}
-                onChange={(e) => setFormData({...formData, capacity: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-                required
-                min="1"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Guest Capacity *</label>
+                <input
+                  type="number"
+                  placeholder="Maximum number of guests"
+                  value={formData.capacity}
+                  onChange={(e) => setFormData({...formData, capacity: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                  required
+                  min="1"
+                />
+              </div>
 
-              <input
-                type="text"
-                placeholder="Amenities (comma separated)"
-                value={formData.amenities}
-                onChange={(e) => setFormData({...formData, amenities: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Room Amenities</label>
+                <input
+                  type="text"
+                  placeholder="AC, TV, Mini Bar, Balcony (comma separated)"
+                  value={formData.amenities}
+                  onChange={(e) => setFormData({...formData, amenities: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
 
-              <textarea
-                placeholder="Description"
-                value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                className="w-full p-3 border rounded-lg h-20"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Room Description</label>
+                <textarea
+                  placeholder="Describe the room features and highlights"
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  className="w-full p-3 border rounded-lg h-20"
+                />
+              </div>
 
-              <input
-                type="text"
-                placeholder="Image URLs (comma separated)"
-                value={formData.images}
-                onChange={(e) => setFormData({...formData, images: e.target.value})}
-                className="w-full p-3 border rounded-lg"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Room Images</label>
+                <input
+                  type="text"
+                  placeholder="https://example.com/room1.jpg, https://example.com/room2.jpg"
+                  value={formData.images}
+                  onChange={(e) => setFormData({...formData, images: e.target.value})}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
 
               <div className="flex gap-4">
                 <button

@@ -35,6 +35,7 @@ const Dashboard: React.FC = () => {
   });
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState<string>('');
@@ -102,6 +103,18 @@ const Dashboard: React.FC = () => {
       if (roomsData.success) {
         setRooms(roomsData.rooms);
       }
+      
+      // Fetch favorites for customers
+      if (user?.role === 'customer') {
+        const token = localStorage.getItem('token');
+        const favRes = await fetch('/api/favorites', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const favData = await favRes.json();
+        if (favData.success) {
+          setFavorites(favData.favorites.map((fav: any) => fav.hotelId._id));
+        }
+      }
     } catch (error) {
       console.error('Error fetching hotels and rooms:', error);
     } finally {
@@ -150,20 +163,35 @@ const Dashboard: React.FC = () => {
   const toggleFavorite = async (hotelId: string) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ hotelId })
-      });
+      const isFavorite = favorites.includes(hotelId);
       
-      if (response.ok) {
-        alert('Added to favorites!');
+      if (isFavorite) {
+        // Remove from favorites
+        const response = await fetch(`/api/favorites/${hotelId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+          setFavorites(favorites.filter(id => id !== hotelId));
+        }
+      } else {
+        // Add to favorites
+        const response = await fetch('/api/favorites', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ hotelId })
+        });
+        
+        if (response.ok) {
+          setFavorites([...favorites, hotelId]);
+        }
       }
     } catch (error) {
-      console.error('Error adding to favorites:', error);
+      console.error('Error toggling favorite:', error);
     }
   };
 
@@ -492,7 +520,7 @@ const Dashboard: React.FC = () => {
                               onClick={() => toggleFavorite(hotel._id)}
                               className="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-2 rounded-lg transition duration-200"
                             >
-                              ❤️
+                              {favorites.includes(hotel._id) ? '❤️' : '🤍'}
                             </button>
                           </div>
                         </div>
