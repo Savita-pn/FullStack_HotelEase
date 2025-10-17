@@ -16,8 +16,8 @@ const Sidebar: React.FC = () => {
     ...(user.role === 'admin' ? [
       { name: 'Users', path: '/users', icon: '👥' },
       { name: 'Analytics', path: '/analytics', icon: '📊' },
-      { name: 'All Hotels', path: '/hotels', icon: '🏨' },
-      { name: 'All Rooms', path: '/rooms', icon: '🛏️' }
+      { name: 'All Hotels', path: '/all-hotels', icon: '🏨' },
+      { name: 'All Rooms', path: '/all-rooms', icon: '🛏️' }
     ] : []),
     ...(user.role === 'manager' ? [
       { name: 'My Hotels', path: '/hotels', icon: '🏨' },
